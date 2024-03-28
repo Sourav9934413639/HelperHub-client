@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Context } from "../index";
 import axios from 'axios';
 import toast from "react-hot-toast";
+import { BASE_URL } from "../Constants";
 
 function Navbar() {
   const { isAuthenticated, setIsAuthenticated, loading, setLoading, user, setUser,setUserRole} = useContext(Context);
@@ -37,7 +38,7 @@ function Navbar() {
   const handleLogout = async() => {
     setLoading(true);
     try {
-      const { data } = await axios.get('http://localhost:4000/api/v1/logout',{withCredentials:true});
+      const { data } = await axios.get(`${BASE_URL}/api/v1/logout`,{withCredentials:true});
       toast.success(data.message);
       setIsAuthenticated(false);
       setLoading(false);
@@ -57,7 +58,7 @@ function Navbar() {
   }
   const fetchTitlesFromDatabase=async()=>{
     try {
-      const {data}=await axios.get('http://localhost:4000/api/v1/allServices');
+      const {data}=await axios.get(`${BASE_URL}/api/v1/allServices`);
       setTitles(data.allServices); 
     } catch (error) {
       console.log(error);
