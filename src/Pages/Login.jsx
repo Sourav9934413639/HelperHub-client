@@ -13,7 +13,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Context } from '../index';
 import toast from 'react-hot-toast';
-import { BASE_URL } from '../Constants';
+import { BASE_URL,headers } from '../Constants';
 const SignInForm = () => {
     const {isAuthenticated,setIsAuthenticated,loading,setLoading,user,setUserRole}=useContext(Context);
     const navigate = useNavigate();
@@ -36,9 +36,7 @@ const SignInForm = () => {
     try {
       await axios.post(`${BASE_URL}/api/v1/login`, form,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         withCredentials: true,
       });
       toast.success("Logged in successfully...");

@@ -6,6 +6,7 @@ import { Button, Container, TextField, Dialog, DialogActions, DialogContent, Dia
 import ServiceGrid from './ServiceGrid';
 import toast from 'react-hot-toast';
 import Loader from '../Components/Loader';
+import {BASE_URL} from '../Constants';
 
 const ServicesAdmin = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ const ServicesAdmin = () => {
   const handleSubmit = async () => {
     try {
       
-      const { data } = await axios.post('http://localhost:4000/api/v1/admin/service', {...formData,title:fetchTitle.trim()},{withCredentials:true});
+      const { data } = await axios.post(`${BASE_URL}/api/v1/admin/service`, {...formData,title:fetchTitle.trim()},{withCredentials:true});
       console.log(data.particularService);
       toast.success("This service is posted successfully");
       fetchServices(); 
@@ -38,7 +39,7 @@ const ServicesAdmin = () => {
   };
   const fetchTitles = async () => {
     try {
-      const { data } = await axios.get('http://localhost:4000/api/v1/allServices');
+      const { data } = await axios.get(`${BASE_URL}/api/v1/allServices`);
       setDisplayTitles(data.allServices);
     } catch (error) {
       console.error('Error fetching titles:', error.message);
@@ -46,7 +47,7 @@ const ServicesAdmin = () => {
   };
   const fetchServices = async () => {
     try {
-      const { data} = await axios.get('http://localhost:4000/api/v1/service');
+      const { data} = await axios.get(`${BASE_URL}/api/v1/service`);
        setDisplayServices(data.allService);
     } catch (error) {
       console.log(error);
@@ -59,7 +60,7 @@ const ServicesAdmin = () => {
   };
   const handleDeleteService = async (serviceId) => {
     try {
-      const { data } = await axios.delete(`http://localhost:4000/api/v1/admin/service/${serviceId}`,{withCredentials:true});
+      const { data } = await axios.delete(`${BASE_URL}/api/v1/admin/service/${serviceId}`,{withCredentials:true});
       console.log(data);
       fetchServices(); 
     } catch (error) {
@@ -79,7 +80,7 @@ const ServicesAdmin = () => {
 
   const handleSaveEditService = async () => {
     try {
-      const { data } = await axios.put(`http://localhost:4000/api/v1/admin/service/${editService._id}`, editService,{withCredentials:true});
+      const { data } = await axios.put(`${BASE_URL}/api/v1/admin/service/${editService._id}`, editService,{withCredentials:true});
       console.log(data);
       fetchServices(); 
       setOpenModal(false);

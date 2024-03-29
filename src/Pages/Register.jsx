@@ -18,7 +18,7 @@ import {
 
 import { Context } from '../index';
 import toast from 'react-hot-toast';
-import { BASE_URL } from '../Constants';
+import { BASE_URL,headers} from '../Constants';
 
 const RegistrationForm = () => {
     const {isAuthenticated,setIsAuthenticated,loading,setLoading,user,setUserRole}=useContext(Context);
@@ -52,9 +52,7 @@ const RegistrationForm = () => {
       try {
         await axios.post(`${BASE_URL}/api/v1/register`, form,
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers,
           withCredentials: true,
         });
         toast.success("You have registered successfully...");
