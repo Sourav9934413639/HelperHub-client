@@ -15,7 +15,7 @@ const AdditionalInfo = () => {
   const [formData, setFormData] = useState({ heading: '', subHeading: '', data: [] });
   const [option, setOption] = useState('');
   const [optionsArr, setOptionsArr] = useState([]);
-  const [subsections, setSubsections] = useState([]);
+  const [titlesWithSubsections, setTitlesWithSubsections] = useState({});
   const [enteredTitle, setEnteredTitle] = useState('');
   const [loading,setLoading]=useState(true);
   const [getAllAdditionalDetails,setGetAllAdditionalDetails]=useState([]);
@@ -35,18 +35,41 @@ const AdditionalInfo = () => {
   }
 
   const handleAddFormData = () => {
+    if (!title) {
+      toast.error("Please select a title");
+      return;
+    }
+
     const newSubsection = {
       heading: formData.heading,
       subHeading: formData.subHeading,
       data: optionsArr.map(option => ({ label: option }))
     };
-    setSubsections([...subsections, newSubsection]);
-    if(Object.values(newSubsection).includes('')){
+
+    if (Object.values(newSubsection).some(value => value === '')) {
       toast.error("Please fill up all details");
+      return;
     }
-    else{
-    toast.success("Details added successfully...");
+
+    const updatedSubsections = [...(titlesWithSubsections[title] || [])];
+    const isDuplicate = updatedSubsections.some(subsection =>
+      subsection.heading === newSubsection.heading &&
+      subsection.subHeading === newSubsection.subHeading &&
+      JSON.stringify(subsection.data) === JSON.stringify(newSubsection.data)
+    );
+
+    if (!isDuplicate) {
+      updatedSubsections.push(newSubsection);
+      const updatedTitlesWithSubsections = {
+        ...titlesWithSubsections,
+        [title]: updatedSubsections
+      };
+      setTitlesWithSubsections(updatedTitlesWithSubsections);
+      toast.success("Details added successfully...");
+    } else {
+      toast.error("Duplicate subsection, not added.");
     }
+
     setFormData({ heading: '', subHeading: '', data: [] });
     setOption('');
     setOptionsArr([]);
@@ -54,15 +77,14 @@ const AdditionalInfo = () => {
 
   const addAdditionalDetails = async () => {
     try {
-        const {data}=await axios.post(`${BASE_URL}/api/v1/admin/additionalDetails`, {
+      const { data } = await axios.post(`${BASE_URL}/api/v1/admin/additionalDetails`, {
         title,
-        subsections
+        subsections: titlesWithSubsections[title] || []
       },
-      {withCredentials:true});
+      { withCredentials: true });
       toast.success(data.message);
       fetchAllAdditionalDetails();
       setEnteredTitle(title); 
-    
     } catch (error) {
       toast.error("Something went wrong! Try again");
       console.log(error.response);
@@ -75,7 +97,7 @@ const AdditionalInfo = () => {
       setGetAllAdditionalDetails(data.allAdditionalInfo);
     } catch (error) {
       console.log(error)
-    }finally{
+    } finally {
       setLoading(false);
     }
   }
@@ -83,8 +105,6 @@ const AdditionalInfo = () => {
   const handleResetOptions = () => {
     setOptionsArr([]);
   };
-
- 
 
   useEffect(() => {
     fetchTitlesFromDatabase();
@@ -99,10 +119,10 @@ const AdditionalInfo = () => {
         <Grid item xs={12}>
           <Card>
             <CardContent>
-            <Grid item xs={12} mt={4} mb={2}>
-          <Typography variant='h4' textAlign={'center'} mt={1}>Add service with additional details</Typography>
-          <Divider/>
-        </Grid>
+              <Grid item xs={12} mt={4} mb={2}>
+                <Typography variant='h4' textAlign={'center'} mt={1}>Add service with additional details</Typography>
+                <Divider/>
+              </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={12} >
                   <Select
@@ -118,7 +138,6 @@ const AdditionalInfo = () => {
                     margin="dense"
                     name="title"
                     sx={{mt:'7.5px'}}
-                    
                   >
                     {fetchTitles.map((item) => (
                       <MenuItem key={item._id} value={item.title}>
@@ -145,7 +164,6 @@ const AdditionalInfo = () => {
                     fullWidth
                     name="subHeading"
                     value={formData.subHeading}
-                    
                     onChange={(e) => setFormData({ ...formData, subHeading: e.target.value })}
                     margin="dense"
                   />
@@ -201,36 +219,35 @@ const AdditionalInfo = () => {
                     Add details
                   </Button>
                 </Grid>
-                
               </Grid>
               <Grid item xs={3}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={addAdditionalDetails}
-                    style={{ marginTop: '1rem' }}
-                  >
-                    Save details
-                  </Button>
-                </Grid>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={addAdditionalDetails}
+                  style={{ marginTop: '1rem' }}
+                >
+                  Save details
+                </Button>
+              </Grid>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
       <Grid item xs={12} mt={4} mb={2}>
-          <Typography variant='h4' textAlign={'center'} mb={1}>All services additional details</Typography>
-          <Divider/>
-        </Grid>
-      <Grid container spacing={10} sx={{ justifyContent: 'center', rowGap: '20px',height:'auto' }}>
-          {
-            getAllAdditionalDetails && getAllAdditionalDetails.length !==0 &&
-            getAllAdditionalDetails.map((item)=>(
-              <AdditionalDetailsCard key={item._id} details={item}
-               fetchAllAdditionalDetails={fetchAllAdditionalDetails}
-               enteredTitle={enteredTitle} />
-            ))
-          }
-        </Grid>
+        <Typography variant='h4' textAlign={'center'} mb={1}>All services additional details</Typography>
+        <Divider/>
+      </Grid>
+      <Grid container spacing={10} sx={{ justifyContent: 'center', rowGap: '20px', height:'auto' }}>
+        {
+          getAllAdditionalDetails && getAllAdditionalDetails.length !==0 &&
+          getAllAdditionalDetails.map((item)=>(
+            <AdditionalDetailsCard key={item._id} details={item}
+             fetchAllAdditionalDetails={fetchAllAdditionalDetails}
+             enteredTitle={enteredTitle} />
+          ))
+        }
+      </Grid>
     </Container>
   )
 }
