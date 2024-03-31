@@ -342,9 +342,10 @@ function Profile() {
                 </Button>
               </Box>
             </form>
-          <Divider/>
-          {newOrder && (
+            {newOrder && (
             <>
+          <Divider/>
+          
             <Box sx={{ width: '100%', textAlign: 'center', marginTop:'4rem' }}>
   
   <Typography component="h1" variant="h3" fontWeight="bold" sx={{ marginBottom: 2 }}>
@@ -397,9 +398,10 @@ function Profile() {
 </Grid>
 </>
 )}
-<Divider style={{height:'3rem'}}/>
-{ordersList && (
+{ordersList && ordersList.length !==0 && (
           <>
+<Divider style={{height:'3rem'}}/>
+
           <Grid container spacing={2} justifyContent="center" mt={5} >
   <Grid item md={12}>
     <Typography variant='h3' textAlign={'center'}><strong>Total orders- </strong> {ordersList.length}</Typography>
