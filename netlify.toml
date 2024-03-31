@@ -1,5 +1,0 @@
-[[redirects]]
-  from = "/api/v1/paymentVerification"
-  to = "/paymentsuccess"
-  status = 302
-  force = true
