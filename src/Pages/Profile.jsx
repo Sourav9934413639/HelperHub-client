@@ -343,14 +343,17 @@ function Profile() {
               </Box>
             </form>
           <Divider/>
+          {newOrder && (
+            <>
             <Box sx={{ width: '100%', textAlign: 'center', marginTop:'4rem' }}>
+  
   <Typography component="h1" variant="h3" fontWeight="bold" sx={{ marginBottom: 2 }}>
     Latest order-
   </Typography>
 </Box>
 <Grid container spacing={2} justifyContent="center">
   <Grid item md={12}>
-    {newOrder && (
+    
       <Card sx={{ display: 'flex', flexDirection: 'column', height: 'auto', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', borderRadius: '10px' }}>
         <CardContent>
           <Grid container spacing={2}>
@@ -389,14 +392,18 @@ function Profile() {
           <Typography variant="h6" textAlign={'end'} mt={2}>{formatTime(newOrder.createdAt)}, {formatDate(newOrder.createdAt)}</Typography>
         </CardContent>
       </Card>
-    )}
+    
   </Grid>
 </Grid>
+</>
+)}
 <Divider style={{height:'3rem'}}/>
+{ordersList && (
+          <>
           <Grid container spacing={2} justifyContent="center" mt={5} >
   <Grid item md={12}>
     <Typography variant='h3' textAlign={'center'}><strong>Total orders- </strong> {ordersList.length}</Typography>
-    {ordersList.map((order) => (
+    {ordersList && ordersList.map((order) => (
       <Grid key={order._id} item>
         <Card sx={{ display: 'flex', flexDirection: 'column',marginTop:'2rem' ,height: 'auto', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', borderRadius: '10px' }}>
           <CardContent>
@@ -440,9 +447,8 @@ function Profile() {
     ))}
   </Grid>
 </Grid>
-
-
-        </Stack>
+</>)}
+      </Stack>
         )}
       </MuiContainer>
     )
