@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/api/v1/paymentVerification"
-  to = "https://helperhub-services.netlify.app/paymentsuccess"
-  status = 200
+  to = "/paymentsuccess"
+  status = 302
   force = true
