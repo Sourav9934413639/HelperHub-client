@@ -7,15 +7,15 @@ import Loader from '../Components/Loader';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { clearPaymentInfo, setPaymentInfo } from '../Redux/paymentReducer';
+//import { useDispatch } from 'react-redux';
+//import { clearPaymentInfo, setPaymentInfo } from '../Redux/paymentReducer';
 import { Stack } from '@mui/system';
 import { BASE_URL } from '../Constants';
 
 
 function Profile() {
   const { isAuthenticated, loading, user } = useContext(Context);
-  const dispatch = useDispatch();
+ // const dispatch = useDispatch();
  // const { cardName, cardNumber, expiryDate, cvv } = useSelector((state) => state.paymentReducer);
   const [newOrder, setNewOrder] = useState('');
   const [oId, setOId] = useState('');
@@ -158,15 +158,15 @@ function Profile() {
     }
   };
 
-  const handlePaymentInfoUpdation = (event) => {
-    event.preventDefault();
-    dispatch(setPaymentInfo(paymentInfo));
-    toast.success('Payment information saved in Redux store');
-  };
+  // const handlePaymentInfoUpdation = (event) => {
+  //   event.preventDefault();
+  //   dispatch(setPaymentInfo(paymentInfo));
+  //   toast.success('Payment information saved in Redux store');
+  // };
 
-  const clearData = () => {
-    dispatch(clearPaymentInfo());
-  };
+  // const clearData = () => {
+  //   dispatch(clearPaymentInfo());
+  // };
  
   return (
     loading ? <Loader /> : (
