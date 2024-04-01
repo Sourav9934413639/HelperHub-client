@@ -23,7 +23,7 @@ const AdminDashboard = () => {
       setUsers(response.data.users);
     } catch (error) {
       console.error(error);
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -55,7 +55,9 @@ const AdminDashboard = () => {
       console.error('Error updating role:', error);
     }
   };
-  if(loading) return <Loader/>
+
+  if (loading) return <Loader/>;
+
   return (
     <Container>
       <Grid container margin={2}>
@@ -68,18 +70,17 @@ const AdminDashboard = () => {
                   <TableHead>
                     <TableRow>
                       <TableCell>
-                      <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: 22,fontFamily:"Roboto" }}>Name</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: 22,fontFamily:"Roboto" }}>Name</Typography>
                       </TableCell>
                       <TableCell>
-                      <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: 22,fontFamily:"Roboto" }}>Email</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: 22,fontFamily:"Roboto" }}>Email</Typography>
                       </TableCell>
                       <TableCell>
-                      <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: 22,fontFamily:"Roboto" }}>Role</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: 22,fontFamily:"Roboto" }}>Role</Typography>
                       </TableCell>
                       <TableCell>
-                      <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: 22,fontFamily:"Roboto" }}>Actions</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: 22,fontFamily:"Roboto" }}>Actions</Typography>
                       </TableCell>
-                      
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -112,14 +113,12 @@ const AdminDashboard = () => {
                             <Typography variant="body1" sx={{ fontWeight: 'bold', fontSize: 16,cursor:'pointer',fontFamily:"Roboto" }}>{user.role}</Typography>
                           </Link>
                         </TableCell>
-                        
                         <TableCell>
                           <IconButton onClick={() => handleDeleteUser(user._id)}>
                             <DeleteIcon />
                           </IconButton>
                           <Button onClick={() => handleOpenModal(user)}>Edit Role</Button>
                         </TableCell>
-                        
                       </TableRow>
                     ))}
                   </TableBody>
@@ -133,11 +132,12 @@ const AdminDashboard = () => {
                 <Select
                   label="Role"
                   value={selectedUser?.role || ''}
-                  onChange={(e) => handleUpdateRole(e.target.value)}
+                  onChange={(e) => setSelectedUser((prevUser) => ({ ...prevUser, role: e.target.value }))}
                 >
                   <MenuItem value="user">User</MenuItem>
                   <MenuItem value="admin">Admin</MenuItem>
                 </Select>
+                <Button onClick={() => handleUpdateRole(selectedUser?.role)}>Save</Button>
                 <Button onClick={handleCloseModal}>Cancel</Button>
               </Box>
             </Modal>
@@ -149,4 +149,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-

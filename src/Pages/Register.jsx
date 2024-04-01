@@ -8,12 +8,11 @@ import {
   Container,
   Typography,
   CssBaseline,
-  FormControl,
   RadioGroup,
   FormControlLabel,
   Radio,
   Box,
-  Grid,InputLabel,Select,MenuItem
+  Grid
 } from '@mui/material';
 
 import { Context } from '../index';
@@ -137,13 +136,13 @@ const RegistrationForm = () => {
                   onChange={handleFormChange}
                   sx={{ marginBottom: 1.5 }}
                 />
-                <FormControl fullWidth variant="outlined" sx={{ marginBottom: 1.5 }}>
+                {/* <FormControl fullWidth variant="outlined" sx={{ marginBottom: 1.5 }}>
                   <InputLabel>Role</InputLabel>
                   <Select name="role" label="Role" onChange={handleFormChange}>
                     <MenuItem value="user">User</MenuItem>
                     <MenuItem value="admin">Admin</MenuItem>
                   </Select>
-                </FormControl>
+                </FormControl> */}
                 <RadioGroup
                   row
                   aria-label="gender"
