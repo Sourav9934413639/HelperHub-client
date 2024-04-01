@@ -94,7 +94,7 @@ const DetailsRegardingBooking = () => {
               </Typography>
             )}
             {subsection?.data && (
-              <div style={{ display: 'flex', marginTop: '20px' }}>
+              <div style={{ display: 'flex', marginTop: '20px',flexWrap:'wrap' }}>
                 {subsection?.data.map((button, buttonIndex) => (
                   <Button
                     key={buttonIndex}

@@ -7,7 +7,7 @@ import Loader from '../Components/Loader';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { clearPaymentInfo, setPaymentInfo } from '../Redux/paymentReducer';
 import { Stack } from '@mui/system';
 import { BASE_URL } from '../Constants';
@@ -16,7 +16,7 @@ import { BASE_URL } from '../Constants';
 function Profile() {
   const { isAuthenticated, loading, user } = useContext(Context);
   const dispatch = useDispatch();
-  const { cardName, cardNumber, expiryDate, cvv } = useSelector((state) => state.paymentReducer);
+ // const { cardName, cardNumber, expiryDate, cvv } = useSelector((state) => state.paymentReducer);
   const [newOrder, setNewOrder] = useState('');
   const [oId, setOId] = useState('');
   const [ordersList,setOrdersList]=useState([]);
@@ -35,12 +35,12 @@ function Profile() {
     confirmPassword: '',
   });
 
-  const [paymentInfo, setPaymentInfoLocal] = useState({
-    cardName: '',
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
-  });
+  // const [paymentInfo, setPaymentInfoLocal] = useState({
+  //   cardName: '',
+  //   cardNumber: '',
+  //   expiryDate: '',
+  //   cvv: '',
+  // });
 
   const fetchUserDetails = async () => {
     try {
@@ -79,7 +79,7 @@ function Profile() {
     }
   },[userId])
   useEffect(() => {
-    setPaymentInfoLocal({ cardName, cardNumber, expiryDate, cvv });
+    //setPaymentInfoLocal({ cardName, cardNumber, expiryDate, cvv });
     fetchUserDetails();
     const getIdFromLocalStorage = JSON.parse(localStorage.getItem('orderId'))
     if (getIdFromLocalStorage) {
@@ -89,7 +89,7 @@ function Profile() {
       getNewOrderDetails();
     }
     
-  }, [cardName, cardNumber, expiryDate, cvv, oId, getNewOrderDetails]);
+  }, [ oId, getNewOrderDetails]);
   useEffect(()=>{
     setUserId(user._id);
     if(userId){
@@ -110,12 +110,12 @@ function Profile() {
     });
   };
 
-  const handleCardChange = (event) => {
-    setPaymentInfoLocal({
-      ...paymentInfo,
-      [event.target.name]: event.target.value,
-    });
-  };
+  // const handleCardChange = (event) => {
+  //   setPaymentInfoLocal({
+  //     ...paymentInfo,
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
 
   const handleUpdation = async (event) => {
     event.preventDefault();
@@ -286,7 +286,7 @@ function Profile() {
                 </Grid>
               </form>
             </Box>
-            <form onSubmit={handlePaymentInfoUpdation} style={{ padding: '0 16px', flex: '1' }}>
+            {/* <form onSubmit={handlePaymentInfoUpdation} style={{ padding: '0 16px', flex: '1' }}>
               <Grid container spacing={2} justifyContent="center">
                 <Grid item xs={12} sm={6}>
                   <Box fontWeight="bold" fontSize={20} textAlign="center">
@@ -341,7 +341,7 @@ function Profile() {
                   Clear
                 </Button>
               </Box>
-            </form>
+            </form> */}
             {newOrder && (
             <>
           <Divider/>
