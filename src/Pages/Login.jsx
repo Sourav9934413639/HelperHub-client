@@ -1,41 +1,43 @@
-
 import React, { useContext, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-
 import axios from 'axios';
 import {
   TextField,
   Button,
   Container,
   Typography,
-  Grid,Box
+  Grid,
+  Box,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Context } from '../index';
 import toast from 'react-hot-toast';
-import { BASE_URL,headers } from '../Constants';
+import { BASE_URL, headers } from '../Constants';
+
 const SignInForm = () => {
-    const {isAuthenticated,setIsAuthenticated,loading,setLoading,user,setUserRole}=useContext(Context);
-    const navigate = useNavigate();
-    const location = useLocation();
+  const { isAuthenticated, setIsAuthenticated, loading, setLoading, user, setUserRole } = useContext(Context);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
-  const handleFormChange = async(e) => {
+
+  const handleFormChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
       [name]: value,
     }));
-  }
+  };
 
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`${BASE_URL}/api/v1/login`, form,
-      {
+      await axios.post(`${BASE_URL}/api/v1/login`, form, {
         headers,
         withCredentials: true,
       });
@@ -48,8 +50,12 @@ const SignInForm = () => {
         navigate('/');
       }
     } catch (error) {
-      console.log(error)
-      toast.error("Something went wrong! Login failed. Try again");
+      console.log(error);
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Something went wrong! Login failed. Try again");
+      }
       setIsAuthenticated(false);
       setLoading(false);
     }
@@ -65,20 +71,26 @@ const SignInForm = () => {
       toast.error(error.response.data.message);
     }
   };
-  const textStyle={
-    fontWeight:'900',
-    color:'#f57c00'
-  }
-  if(isAuthenticated) {
-    if(user?.role === "admin"){
+
+  const textStyle = {
+    fontWeight: '900',
+    color: '#f57c00',
+  };
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  if (isAuthenticated) {
+    if (user?.role === "admin") {
       setUserRole("ADMIN");
-    }else{
+    } else {
       setUserRole("USER");
     }
-    return <Navigate to={"/"} />
+    return <Navigate to={"/"} />;
   }
+
   return (
-    <Container component="main" maxWidth="lg" sx={{ width: '80%',minHeight:'52vh' }}>
+    <Container component="main" maxWidth="lg" sx={{ width: '80%', minHeight: '52vh' }}>
       <Box
         sx={{
           display: 'flex',
@@ -89,21 +101,19 @@ const SignInForm = () => {
           borderRadius: '2px',
           margin: '1rem',
           padding: '1rem',
-          marginTop:'6rem'
+          marginTop: '6rem',
         }}
       >
-        <Grid container spacing={2}>
-
-          <Grid item xs={8}>
+        <Grid container spacing={2} direction={isSmallScreen ? 'column' : 'row'} alignItems="center">
+          <Grid item xs={12} md={8}>
             <img
               src={`/Authentication/Login.jpg`}
               alt="Login Pic"
-              style={{ width: '100%', height: '100%', objectFit:'contain', borderRadius: '4px' }}
+              style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '4px' }}
             />
           </Grid>
-
-          <Grid item xs={4}>
-            <Box sx={{ p: 1, width: '100%', height: 'auto', display: 'flex', flexDirection: 'column' }}>
+          <Grid item xs={12} md={4}>
+            <Box sx={{ p: 1, width: '100%', display: 'flex', flexDirection: 'column' }}>
               <Typography component="h1" variant="h5" fontWeight="bold" sx={{ marginBottom: 2 }}>
                 Sign In
               </Typography>
@@ -133,10 +143,8 @@ const SignInForm = () => {
                 <Button type="submit" disabled={loading} fullWidth variant="contained" color="primary" sx={{ marginBottom: 1.5 }}>
                   Sign In
                 </Button>
-                <Typography variant="h6" align="center" margin={1}>
-                 
-                    <Button onClick={handleForgotPassword}>Forgot Your Password?</Button>
-
+                <Typography variant="body2" align="center" margin={1}>
+                  <Button onClick={handleForgotPassword}>Forgot Your Password?</Button>
                 </Typography>
               </form>
               <Typography variant="body2" align="center" margin={1}>

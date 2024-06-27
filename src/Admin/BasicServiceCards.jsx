@@ -22,7 +22,7 @@ const BasicServiceCards = ({baseServiceInfo,delBaseServiceInfo}) => {
             />
             <CardContent style={{height:'250px'}}>
               <Typography variant="h6"><strong>Header: </strong>{baseServiceInfo?.servicesInfo?.serviceData?.header}</Typography>
-              <Typography variant="body2"><strong>Price: </strong>{baseServiceInfo?.servicesInfo?.serviceData?.price}</Typography>
+              <Typography variant="body2"><strong>Price: </strong>₹{baseServiceInfo?.servicesInfo?.serviceData?.price}</Typography>
               <Typography variant="body2"><strong>Description: </strong>{baseServiceInfo?.servicesInfo?.serviceData?.description}</Typography>
               <Typography variant="body2"><strong>Details: </strong>{baseServiceInfo?.servicesInfo?.serviceData?.description2}</Typography>  
             

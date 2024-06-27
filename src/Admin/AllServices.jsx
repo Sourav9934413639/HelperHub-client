@@ -136,22 +136,22 @@ const AllServices = () => {
         <Grid container spacing={2}>
           {services && services.map((service) => (
             <Grid item key={service._id} xs={12} sm={6} md={4} lg={3}>
-              <Card sx={{ display: 'flex', flexDirection: 'column',height:'500px' }}>
+              <Card sx={{ display: 'flex', flexDirection: 'column',height:'60vh' }}>
                 <CardMedia 
                   component="img"
                   alt="All services"
-                  height="70%"
+                  sx={{objectFit:'cover',height:'70%'}}
                   width="100%"
               
                   image={`/ImagesFiles/Allservices/${service.imgName}.jpg`}               
                 />
-                <CardContent style={{height:'150px'}}>
+                <CardContent sx={{height:'20%'}}>
                   <Typography variant="h6"><strong>Title: </strong>{service.title}</Typography>
                   <Typography variant="h6"><strong>File name: </strong>{service.imgName}</Typography>
 
                   
                 </CardContent>
-                <CardActions style={{justifyContent:'space-between'}}>
+                <CardActions sx={{justifyContent:'space-between',height:'10%'}}>
                  
                    <IconButton onClick={() => handleOpenModal(service)} aria-label="edit" size="small" title="Edit">
                       <EditIcon style={{transform:'scale(1.2)',color:'grey'}}/>

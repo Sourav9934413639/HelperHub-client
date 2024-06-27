@@ -15,12 +15,35 @@ import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import axios from 'axios';
 import Slider from '../Components/Carousel/HomeCarousel'
 import { BASE_URL } from '../Constants';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 
 const Home = () => {
   const [fetchTitles, setFetchTitles] = useState([]);
   const [showWhy, setShowWhy] = useState([]);
   const [showFAQs, setShowFAQs] = useState([]);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
+  let fontSize;
+  if (isSmallScreen) {
+    fontSize = '1.5rem'; 
+  } else if (isMediumScreen) {
+    fontSize = '2rem';
+  } else {
+    fontSize = 'h2';
+  }
+
+  let fontSize2;
+  if (isSmallScreen) {
+    fontSize2 = '1rem'; 
+  } else if (isMediumScreen) {
+    fontSize2 = '1.5rem';
+  } else {
+    fontSize2 = 'h4';
+  }
   
   const fetchTitlesFromDatabase=async()=>{
     try {
@@ -49,8 +72,6 @@ const fetchFAQs=async()=>{
     
   }
 }
-
-
   useEffect(() => {
     fetchTitlesFromDatabase()
     fetchWhyChooseUs();
@@ -62,7 +83,11 @@ const fetchFAQs=async()=>{
     <Slider/>
     <div style={{ position: 'relative'}}>
       <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-          <Typography variant="h2" style={{ color: 'black', fontWeight: 'bold',textAlign:'center',fontFamily:'Poppins' }}>
+          <Typography variant={fontSize === 'h2' ? 'h2' : undefined} 
+          style={{ 
+            fontSize: fontSize !== 'h2' ? fontSize : undefined,
+            color: 'black', fontWeight: 'bold',textAlign:'center',fontFamily:'Poppins' 
+            }}>
             "Bringing comfort home"
           </Typography>
           <Typography style={{fontFamily:'Poppins', color: 'black', fontWeight: 'bold', whiteSpace: 'nowrap',textAlign:'center' }}>
@@ -77,7 +102,10 @@ const fetchFAQs=async()=>{
           marginTop: '20px',
         }}
       >
-        <Typography variant="h4" style={{fontFamily:'Poppins', color: 'black', marginBottom: '1%', fontWeight: 'bold' }}>
+        <Typography variant={fontSize2 === 'h4' ? 'h4' : undefined} style={{
+          fontSize: fontSize2 !== 'h4' ? fontSize2 : undefined,
+          fontFamily:'Poppins', color: 'black', marginBottom: '1%', fontWeight: 'bold' 
+          }}>
           Our Featured Services
         </Typography>
         <Typography variant="h6" style={{fontFamily:'Poppins', color: 'black', marginBottom: '1%', fontWeight: 'bold' }}>
@@ -136,7 +164,7 @@ const fetchFAQs=async()=>{
         <Typography variant="h6" component="div" style={{fontFamily:'Poppins', color: 'black', fontWeight: 'bold' }}>
           {item.title}
         </Typography>
-        <Typography style={{fontFamily:'Poppins', color: 'black' }}>{item.description}</Typography>
+        
       </CardContent>
     </Card>
   ))}

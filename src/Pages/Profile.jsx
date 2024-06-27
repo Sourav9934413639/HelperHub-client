@@ -361,6 +361,7 @@ function Profile() {
             </Grid>
           </Grid>
           <Typography variant="h6" textAlign={'center'} mt={2}><strong>Total Price: </strong> ₹{newOrder.TotalPrice}</Typography>
+          <Typography variant="h6" textAlign={'end'} mb={1}><strong>Status: </strong>{newOrder.orderStatus}</Typography>
           <Typography variant="h6" textAlign={'end'} mt={2}>{formatTime(newOrder.createdAt)}, {formatDate(newOrder.createdAt)}</Typography>
         </CardContent>
       </Card>
